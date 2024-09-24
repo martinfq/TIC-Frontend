@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate ,  Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 const API_URL = import.meta.env.VITE_API_URL
 
 const Register = () => {
@@ -8,6 +8,7 @@ const Register = () => {
   const [last_name, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const Register = () => {
           password: password,
           name: name,
           last_name: last_name,
+          birthday: selectedDate
         }),
       });
 
@@ -81,6 +83,17 @@ const Register = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
+        <div>
+          <label htmlFor="dateInput">Selecciona una fecha: </label>
+          <input
+            type="date"
+            id="dateInput"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          />
+          <p>Fecha seleccionada: {selectedDate}</p>
+        </div>
+
         <button type="submit">Regístrate</button>
       </form>
     </div>

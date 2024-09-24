@@ -33,7 +33,6 @@ const Home = () => {
     GenHlth: '',
     MentHlth: '',
     PhysHlth: '',
-    Age: ''
   });
 
   const handleChange = (e) => {
@@ -46,7 +45,6 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formattedData = {
-      user_email: email,
       HighBp: parseFloat(formData.HighBp === 'true' ? '1.0' : '0.0'),
       HighChol: parseFloat(formData.HighChol === 'true' ? '1.0' : '0.0'),
       Smoker: parseFloat(formData.Smoker === 'true' ? '1.0' : '0.0'),
@@ -57,7 +55,6 @@ const Home = () => {
       GenHlth: parseFloat(formData.GenHlth),
       MentHlth: parseFloat(formData.MentHlth),
       PhysHlth: parseFloat(formData.PhysHlth),
-      Age: parseFloat(formData.Age)
 
     }
     const response = await fetch(API_URL + '/predict/register', {
@@ -102,8 +99,8 @@ const Home = () => {
             <label>High Blood Pressure (HighBp):</label>
             <select name="HighBp" value={formData.HighBp} onChange={handleChange}>
               <option value="">Select</option>
-              <option value='1.0'>Yes</option>
-              <option value="0.0">No</option>
+              <option value='true'>Yes</option>
+              <option value="false">No</option>
             </select>
           </div>
           <div>
@@ -157,10 +154,6 @@ const Home = () => {
           <div>
             <label>Physical Health (PhysHlth):</label>
             <input type="number" name="PhysHlth" value={formData.PhysHlth} onChange={handleChange} />
-          </div>
-          <div>
-            <label>Age:</label>
-            <input type="number" name="Age" value={formData.Age} onChange={handleChange} />
           </div>
           <button type="submit">Submit</button>
         </form>
