@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
+import Historial from './components/Historial';
 import Login from './components/Login';
 import Register from './components/Register';
 
@@ -19,7 +20,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={auth ? <Home /> : <Login />} />
-        <Route path="/register" element={<Register />} /> 
+        <Route path="/historial" element={auth ? <Historial /> : <Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
   );
