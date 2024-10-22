@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Cookies from 'js-cookie';
-import { useNavigate, Link } from 'react-router-dom';
+import {Link } from 'react-router-dom';
 
-const API_URL = import.meta.env.VITE_API_URL;
-const COOKIE_EXPIRE = Number(import.meta.env.VITE_COOKIE_EXPRIRE);
+//const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = 'http://127.0.0.1:5000'
+//const COOKIE_EXPIRE = Number(import.meta.env.VITE_COOKIE_EXPRIRE);
+const COOKIE_EXPIRE = Number(60);
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -24,7 +26,7 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-        Cookies.set('auth', data.access_token, { expires: COOKIE_EXPIRE });
+        Cookies.set('auth', data.access_token, { expires: 1/1440 });
         window.location.reload();
       } else {
         const errorData = await response.json();

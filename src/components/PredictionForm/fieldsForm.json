@@ -1,0 +1,13 @@
+{
+    "HighBp": "¿Tiene presión arterial alta?",
+    "HighChol": "¿Tiene colesterol alto?",
+    "Smoker": "¿Fuma con regularidad?",
+    "Stroke": "¿Ha sufrido algún derrame cerebral?",
+    "HeartDiseaseorAttack": "¿Ha sufrido algún ataque cardíaco?",
+    "BMI": "Índice de Masa Corporal (IMC)",
+    "PhysActivity": "En el último mes, ¿cuántos días ha realizado actividad física?",
+    "GenHlth": "En escala del 1 al 5 diría que su salud es: 1 = excelente, 2 = muy buena, 3 = buena, 4 = regular, 5 = mala",
+    "MentHlth": "Salud Mental",
+    "PhysHlth": "Salud Física"
+  }
+  

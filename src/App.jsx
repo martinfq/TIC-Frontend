@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
+import UserPredictions from './components/UserPredictions';
+
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -20,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={auth ? <Home /> : <Login />} />
         <Route path="/register" element={<Register />} /> 
+        <Route path="/history" element={auth ? <UserPredictions /> : <Login />} />
       </Routes>
     </Router>
   );
