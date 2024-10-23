@@ -29,7 +29,7 @@ function NavBar() {
                     <a href="/" className="hover:underline">Home</a>
                 </li>
                 <li>
-                    <a href="/about" className="hover:underline">About</a>
+                    <a href="/historial" className="hover:underline">Historial</a>
                 </li>
             </ul>
             <h3 className={styles.welcomeText}>Bienvenido {email}!</h3>

@@ -4,8 +4,6 @@ import { jwtDecode } from 'jwt-decode';
 const API_URL = import.meta.env.VITE_API_URL;
 
 function UserCards() {
-    const [email, setEmail] = useState('');
-    const [authToken, setAuthToken] = useState('');
     const [data, setData] = useState(null);
 
     useEffect(() => {
@@ -25,9 +23,7 @@ function UserCards() {
         };
 
         if (token) {
-            setAuthToken(token);
             const emailToken = jwtDecode(token).sub;
-            setEmail(emailToken);
             fetchData(emailToken);
         }
     }, []);
@@ -48,7 +44,7 @@ function UserCards() {
                 {/* Tarjeta 1: Gender */}
                 <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 text-center">
                     <h2 className="text-xl font-semibold">Gender</h2>
-                    <p className="text-gray-700 mt-2">{data?.gender || 'N/A'}</p>
+                    <p className="text-gray-700 mt-2">{data?.gender === 1 ? 'Masculino' : 'Femenino' || 'N/A'}</p>
                 </div>
 
 

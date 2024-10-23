@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
+import History from './components/History';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -28,7 +29,6 @@ function App() {
   
   useEffect(() => {
     const token = Cookies.get('auth');
-    console.log(token)
     if (token) {
       verifyToken(token);
     }
@@ -39,6 +39,7 @@ function App() {
       <Routes>
         <Route path="/" element={authToken ? <Home /> : <Login />} />
         <Route path="/register" element={<Register />} /> 
+        <Route path="/historial" element={<History />} /> 
       </Routes>
     </Router>
   );
