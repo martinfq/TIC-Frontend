@@ -5,28 +5,33 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   const [authToken, setAuthToken] = useState('');
   
-  const verifyToken = async () => {
-    const token = Cookies.get('auth');
-  
+  const verifyToken = async (token) => {
     try {
-      const response = await fetch(API_URL + '/verify-token', {
+      const response = await fetch(`${API_URL}/verify-token`, {
         headers: {
-          'Authorization': token
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
-      if(response.ok){
-        setAuthToken(token)
+
+      if (response.ok) {
+        setAuthToken(token);
       }
     } catch (error) {
-      
+      console.error('Error verifying token:', error);
     }
   };
   
   useEffect(() => {
-    verifyToken(); // Llamamos a la función cuando el componente se monte
+    const token = Cookies.get('auth');
+    console.log(token)
+    if (token) {
+      verifyToken(token);
+    }
   }, []);
 
   return (
