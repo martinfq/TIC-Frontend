@@ -6,19 +6,33 @@ import Login from './components/Login';
 import Register from './components/Register';
 
 function App() {
-  const [auth, setAuth] = useState(false);
-
-  useEffect(() => {
-    const authToken = Cookies.get('auth');
-    if (authToken) {
-      setAuth(true);
+  const [authToken, setAuthToken] = useState('');
+  
+  const verifyToken = async () => {
+    const token = Cookies.get('auth');
+  
+    try {
+      const response = await fetch(API_URL + '/verify-token', {
+        headers: {
+          'Authorization': token
+        }
+      });
+      if(response.ok){
+        setAuthToken(token)
+      }
+    } catch (error) {
+      
     }
+  };
+  
+  useEffect(() => {
+    verifyToken(); // Llamamos a la función cuando el componente se monte
   }, []);
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={auth ? <Home /> : <Login />} />
+        <Route path="/" element={authToken ? <Home /> : <Login />} />
         <Route path="/register" element={<Register />} /> 
       </Routes>
     </Router>

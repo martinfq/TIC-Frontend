@@ -33,25 +33,25 @@ function UserCards() {
     }, []);
 
     return (
-        <div className="md:pl-4 w-full max-w-md">
+        <div className="w-full">
             <div className="flex justify-center space-x-4 mt-6">
+                {/* Tarjeta 3: Name */}
+                <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 text-center">
+                    <h2 className="text-xl font-semibold">Name</h2>
+                    <p className="text-gray-700 mt-2">{data?.name || 'N/A'}</p>
+                </div>
+                {/* Tarjeta 2: Age */}
+                <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 text-center">
+                    <h2 className="text-xl font-semibold">Age</h2>
+                    <p className="text-gray-700 mt-2">{data?.age || 'N/A'}</p>
+                </div>
                 {/* Tarjeta 1: Gender */}
                 <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 text-center">
                     <h2 className="text-xl font-semibold">Gender</h2>
                     <p className="text-gray-700 mt-2">{data?.gender || 'N/A'}</p>
                 </div>
 
-                {/* Tarjeta 2: Age */}
-                <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 text-center">
-                    <h2 className="text-xl font-semibold">Age</h2>
-                    <p className="text-gray-700 mt-2">{data?.age || 'N/A'}</p>
-                </div>
 
-                {/* Tarjeta 3: Name */}
-                <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 text-center">
-                    <h2 className="text-xl font-semibold">Name</h2>
-                    <p className="text-gray-700 mt-2">{data?.name || 'N/A'}</p>
-                </div>
             </div>
         </div>
     );

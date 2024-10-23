@@ -16,6 +16,7 @@ const Home = () => {
       <div className={`${styles.container} `}>
         <PredictionForm />
         <div className="w-2/5 p-2">
+          <h1 className={styles.formTitle}>Información</h1>
           <UserCards />
           <PredictionCard />
         </div>
@@ -27,7 +28,8 @@ const Home = () => {
 export default Home;
 
 const styles = {
-  container: 'flex items-center px-6 bg-gray-100 min-h-screen place-items-center gap-x-4',
+  container: 'flex px-6 pt-4 bg-gray-100 min-h-screen place-items-center gap-x-4 items-start',
   logoutButton: 'bg-red-500 hover:bg-red-600 transition duration-200 p-2 rounded',
   predictionText: 'mt-4 text-xl',
+  formTitle: 'text-2xl font-bold mb-4 text-center',
 };
