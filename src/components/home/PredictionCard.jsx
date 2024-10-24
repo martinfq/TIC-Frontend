@@ -37,7 +37,7 @@ function PredictionCard() {
                 }`}
         >
             <h2 className="text-2xl font-semibold text-white">Prediction</h2>
-            <p className="mt-4 text-4xl text-white">{preditc ? `${preditc}%` : 'N/A'}</p>
+            <p className="mt-4 text-4xl text-white">{preditc ? `${preditc}%` : 'Cree una predicción'}</p>
         </div>
     );
 }

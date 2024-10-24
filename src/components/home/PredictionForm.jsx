@@ -86,7 +86,8 @@ function PredictionForm() {
                     if(result.isConfirmed) window.location.reload();
                   })
             } else {
-                alert('Error submitting data');
+                throw new Error("Error");
+                
             }
             
         } catch (error) {
