@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import getToken from '../../utils/getToken';
 
 
 const swalAlerts = withReactContent(Swal);
@@ -13,10 +14,11 @@ const API_URL = import.meta.env.VITE_API_URL;
 function PredictionForm() {
     const [authToken, setAuthToken] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-
     useEffect(() => {
-        const token = Cookies.get('auth');
-        setAuthToken(token);
+        const {token} = getToken();
+        if (token) {
+            setAuthToken(token)
+        }
     }, []);
 
     const [formData, setFormData] = useState({

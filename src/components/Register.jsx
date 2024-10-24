@@ -59,7 +59,7 @@ const Register = () => {
     title: 'text-2xl font-bold mb-4 text-center',
     error: 'text-red-500 mb-4',
     input: 'w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300 mb-4',
-    button: 'w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200',
+    button: 'w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200 my-2',
     dateContainer: 'mb-4',
     dateLabel: 'block mb-2',
     selectedDateText: 'mt-2 text-gray-600',
@@ -122,6 +122,9 @@ const Register = () => {
           <button type="submit" className={styles.button}>
             Regístrate
           </button>
+          <a href="/">
+            <p>Regresa al login</p>
+          </a>
         </form>
       </div>
     </div>

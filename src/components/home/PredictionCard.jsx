@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
+import getToken from '../../utils/getToken';
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -8,26 +7,22 @@ const API_URL = import.meta.env.VITE_API_URL;
 function PredictionCard() {
     const [preditc, setPredict] = useState(null);
 
-    useEffect(() => {
-        const token = Cookies.get('auth');
-        const fetchPredict = async (emailToken) => {
-            try {
-                const response = await fetch(API_URL + `/last-predict/?email=${emailToken}`);
-                if (!response.ok) {
-                    throw new Error('Error al obtener los datos');
-                }
-                const result = await response.json();
-                const prediction = result.prediction
-                setPredict(Math.round(prediction * 100));
-            } catch (err) {
-                console.error(err);
+    const fetchPredict = async (emailToken) => {
+        try {
+            const response = await fetch(API_URL + `/last-predict/?email=${emailToken}`);
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos');
             }
-        };
-
-        if (token) {
-            const emailToken = jwtDecode(token).sub;
-            fetchPredict(emailToken);
+            const result = await response.json();
+            const prediction = result.prediction
+            setPredict(Math.round(prediction * 100));
+        } catch (err) {
+            console.error(err);
         }
+    };
+    useEffect(() => {
+        const { email } = getToken();
+        fetchPredict(email);
     }, []);
 
     return (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
-import NavBar from './main/NavBar';
+import NavBar from './layout/NavBar';
 
 const API_URL = import.meta.env.VITE_API_URL;
 function History() {

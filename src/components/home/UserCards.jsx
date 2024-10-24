@@ -1,31 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
+import getToken from '../../utils/getToken';
 const API_URL = import.meta.env.VITE_API_URL;
 
 function UserCards() {
     const [data, setData] = useState(null);
 
-    useEffect(() => {
-        const token = Cookies.get('auth');
-
-        const fetchData = async (emailToken) => {
-            try {
-                const response = await fetch(API_URL + `/user/?email=${emailToken}`);
-                if (!response.ok) {
-                    throw new Error('Error al obtener los datos');
-                }
-                const result = await response.json();
-                setData(result);
-            } catch (err) {
-                console.error(err);
+    const fetchUserInfo = async (emailToken) => {
+        try {
+            const response = await fetch(API_URL + `/user/?email=${emailToken}`);
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos');
             }
-        };
-
-        if (token) {
-            const emailToken = jwtDecode(token).sub;
-            fetchData(emailToken);
+            const result = await response.json();
+            setData(result);
+        } catch (err) {
+            console.error(err);
         }
+    };
+    useEffect(() => {
+        const { email } = getToken();
+        fetchUserInfo(email);
     }, []);
 
     return (
@@ -46,8 +40,6 @@ function UserCards() {
                     <h2 className="text-xl font-semibold">Gender</h2>
                     <p className="text-gray-700 mt-2">{data?.gender === 1 ? 'Masculino' : 'Femenino' || 'N/A'}</p>
                 </div>
-
-
             </div>
         </div>
     );
