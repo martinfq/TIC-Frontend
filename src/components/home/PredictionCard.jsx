@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import getToken from '../../utils/getToken';
+import manage401 from '../../utils/manage401';
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -7,9 +8,18 @@ const API_URL = import.meta.env.VITE_API_URL;
 function PredictionCard() {
     const [preditc, setPredict] = useState(null);
 
-    const fetchPredict = async (emailToken) => {
+    const fetchPredict = async (token) => {
         try {
-            const response = await fetch(API_URL + `/last-predict/?email=${emailToken}`);
+            const response = await fetch(API_URL + `/last-predict/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, // Agrega el token aquí
+                },
+            });
+            if (response.status === 401) {
+                manage401()
+            }
             if (!response.ok) {
                 throw new Error('Error al obtener los datos');
             }
@@ -21,8 +31,8 @@ function PredictionCard() {
         }
     };
     useEffect(() => {
-        const { email } = getToken();
-        fetchPredict(email);
+        const { token } = getToken();
+        fetchPredict(token);
     }, []);
 
     return (
