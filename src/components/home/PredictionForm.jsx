@@ -26,10 +26,11 @@ function PredictionForm() {
     };
     // Al cargar el componente, obtiene el token de autenticación y lo guarda en el estado
     useEffect(() => {
-        const {token} = getToken();
+        const token = getToken();
         if (token) {
             setAuthToken(token)
         }
+        setFieldLabels(fieldLabelsData);
     }, []);
 
     // Estado que guarda los datos del formulario
@@ -46,9 +47,6 @@ function PredictionForm() {
         PhysHlth: '',
     });
 
-    useEffect(() => {
-        setFieldLabels(fieldLabelsData);
-      }, []);
 
     // Función para manejar cambios en los campos del formulario
     const handleChange = (e) => {
@@ -88,6 +86,7 @@ function PredictionForm() {
             MentHlth: parseFloat(formData.MentHlth),
             PhysHlth: parseFloat(formData.PhysHlth),
         };
+    
 
         // Envía los datos formateados a la API
         try {
