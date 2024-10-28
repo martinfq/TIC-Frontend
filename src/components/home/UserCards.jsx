@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import getToken from '../../utils/getToken';
+import { jwtDecode } from 'jwt-decode';
 const API_URL = import.meta.env.VITE_API_URL;
 
 function UserCards() {
     const [data, setData] = useState(null);
 
-    const fetchUserInfo = async (emailToken) => {
+    const fetchUserInfo = async (token) => {
         try {
-            const response = await fetch(API_URL + `/user/?email=${emailToken}`);
+            const response = await fetch(API_URL + `/user/`,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, // Agrega el token aquí
+                },
+            });
             if (!response.ok) {
                 throw new Error('Error al obtener los datos');
             }
@@ -18,8 +25,10 @@ function UserCards() {
         }
     };
     useEffect(() => {
-        const { email } = getToken();
-        fetchUserInfo(email);
+        const token = getToken();
+        if(token){
+            fetchUserInfo(token)
+        }
     }, []);
 
     return (

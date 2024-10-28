@@ -29,8 +29,8 @@ function History() {
         }
     };
     useEffect(() => {
-        const { token } = getToken();
-        fetchPredict(token);
+        const token = getToken();
+        if (token) fetchPredict(token);
     }, []);
 
     return (
