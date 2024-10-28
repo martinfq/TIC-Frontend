@@ -21,7 +21,7 @@ function NavBar() {
         <nav className={styles.navbar}>
             <h1 className={styles.logo}> Predicción de Diabetes</h1>
             <h3 className={styles.welcomeText}>Bienvenido {email}!</h3>
-            <div className="flex items-center space-x-4">
+            <div className="flex h-full items-center space-x-6 font-medium">
                 <ul className={styles.navbarLinks}>
                     <li>
                         <a href="/" className="hover:underline">Home</a>
@@ -41,9 +41,9 @@ function NavBar() {
 export default NavBar;
 
 const styles = {
-    navbar: 'w-full flex justify-between items-center bg-blue-600 p-4 text-white',
-    navbarLinks: 'flex space-x-4 text-xl',
+    navbar: 'w-full flex flex-col md:flex-row justify-between items-center bg-blue-600 p-4 text-white ',
+    navbarLinks: 'flex space-x-6 mb-2 text-xl md:mb-0',
     welcomeText: 'text-xl',
-    logoutButton: 'bg-red-500 hover:bg-red-600 transition duration-200 p-2 rounded',
-    logo: 'text-2xl'
+    logoutButton: 'bg-blue-700 p-2 rounded shadow transition duration-500 hover:shadow-lg hover:bg-blue-600',
+    logo: 'text-2xl font-semibold'
 };

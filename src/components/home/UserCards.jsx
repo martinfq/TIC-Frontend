@@ -26,17 +26,17 @@ function UserCards() {
         <div className="w-full">
             <div className="flex justify-center space-x-4 mt-6">
                 {/* Tarjeta 3: Name */}
-                <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 text-center">
+                <div className="bg-white p-6 rounded-lg shadow-md w-1/3 text-center transition-all duration-500 hover:scale-110 hover:shadow-blue-600">
                     <h2 className="text-xl font-semibold">Name</h2>
                     <p className="text-gray-700 mt-2">{data?.name || 'N/A'}</p>
                 </div>
                 {/* Tarjeta 2: Age */}
-                <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 text-center">
+                <div className="bg-white p-6 rounded-lg shadow-md w-1/3 text-center transition-all duration-500 hover:scale-110 hover:shadow-blue-600">
                     <h2 className="text-xl font-semibold">Age</h2>
                     <p className="text-gray-700 mt-2">{data?.age || 'N/A'}</p>
                 </div>
                 {/* Tarjeta 1: Gender */}
-                <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 text-center">
+                <div className="bg-white p-6 rounded-lg shadow-md w-1/3 text-center transition-all duration-500 hover:scale-110 hover:shadow-blue-600">
                     <h2 className="text-xl font-semibold">Gender</h2>
                     <p className="text-gray-700 mt-2">{data?.gender === 1 ? 'Masculino' : 'Femenino' || 'N/A'}</p>
                 </div>

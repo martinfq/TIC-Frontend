@@ -37,13 +37,13 @@ function PredictionCard() {
 
     return (
         <div
-            className={`p-8 rounded-lg shadow-lg w-full text-center mt-6 ${preditc !== null
+            className={`p-8 rounded-lg shadow-lg w-full text-center mt-6 transition-all duration-500 hover:scale-105 hover:shadow-blue-600 ${preditc !== null
                 ? preditc < 50
                     ? 'bg-green-500'
                     : preditc >= 50 && preditc < 60
                         ? 'bg-yellow-500'
                         : 'bg-red-500'
-                : 'bg-gray-300'
+                : 'bg-gray-400'
                 }`}
         >
             <h2 className="text-2xl font-semibold text-white">Prediction</h2>
