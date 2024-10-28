@@ -1,0 +1,28 @@
+{
+    "recommendations": [
+        {
+            "id": 1,
+            "text": "Mantén una dieta equilibrada",
+            "category": "nutrition",
+            "importance": "high"
+        },
+        {
+            "id": 2,
+            "text": "Realiza ejercicio regularmente",
+            "category": "exercise",
+            "importance": "high"
+        },
+        {
+            "id": 3,
+            "text": "Evita el consumo de azúcares refinados",
+            "category": "nutrition",
+            "importance": "medium"
+        },
+        {
+            "id": 4,
+            "text": "Controla tus niveles de glucosa",
+            "category": "health",
+            "importance": "high"
+        }
+    ]
+}
