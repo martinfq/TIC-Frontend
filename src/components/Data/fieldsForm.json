@@ -6,7 +6,7 @@
   "HeartDiseaseorAttack":{"label": "Enfermedad o ataque cardiaco", "comment": ""},
   "BMI":{"label": "Índice de Masa Corporal (IMC)", "comment": ""},
   "PhysActivity":{"label": "¿Ha realizado actividad física en el último mes?", "comment": "Donde 1 es si y 0 es no"},
-  "GenHlth":{"label": "En una escala del 1 al 5, ¿cómo evaluaría usted su estado de salud general?", "comment": "Donde 1 es excelente y 5 es mala"},
+  "GenHlth":{"label": "En una escala del 1 al 5, ¿cómo evaluaría su estado de salud general?", "comment": "Donde 1 es excelente y 5 es mala"},
   "MentHlth":{"label": "¿Cuantos días ha tenido problemas con su Salud Mental?", "comment": "Durante los ultimos 30 dias"},
   "PhysHlth":{"label": "¿Cuantos días ha tenido problemas con su Salud Física?", "comment": "Durante los ultimos 30 dias"}
 }

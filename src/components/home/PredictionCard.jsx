@@ -46,8 +46,8 @@ function PredictionCard() {
                 : 'bg-gray-400'
                 }`}
         >
-            <h2 className="text-2xl font-semibold text-white">Prediction</h2>
-            <p className="mt-4 text-4xl text-white">{preditc ? `${preditc}%` : 'Cree una predicción'}</p>
+            <h2 className="text-2xl font-semibold text-white">Última Predicción</h2>
+            <p className="mt-4 text-4xl text-white">{preditc ? `${preditc}%` : 'No tiene predicciones'}</p>
         </div>
     );
 }
