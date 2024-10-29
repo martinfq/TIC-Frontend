@@ -4,13 +4,13 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import History from './components/History';
-import getToken from './utils/getToken';
+import Cookies from 'js-cookie';
 
 function App() {
   const [authToken, setAuthToken] = useState(null);
   
   useEffect(() => {
-    const {token} =  getToken() || {}
+    const token = Cookies.get('auth');
     setAuthToken(token)
   }, []);
 

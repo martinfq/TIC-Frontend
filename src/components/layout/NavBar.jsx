@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import Cookies from 'js-cookie';
 import getToken from '../../utils/getToken';
+import { jwtDecode } from 'jwt-decode';
 
 function NavBar() {
     const [email, setEmail] = useState('');
@@ -11,10 +12,13 @@ function NavBar() {
     };
     
     useEffect(() => {
-        const { email } = getToken();
-        if (email) {
-            setEmail(email)
+        const token = getToken();
+        if(token){
+
+            const emailToken = jwtDecode(token).sub;
+            setEmail(emailToken)
         }
+        
     }, []);
 
     const handleLogout = () => {
