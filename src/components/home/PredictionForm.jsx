@@ -127,37 +127,41 @@ function PredictionForm() {
         }
     };
 
-    // Renderiza el formulario con campos select e input, aplicando estilos de Tailwind CSS
+    // Renderiza el formulario
     return (
-        <div className="w-3/5 p-3">
-            <h1 className={styles.formTitle}>Crea una predicción</h1>
-            <form onSubmit={handleSubmit} className={styles.formContainer}>
-                <label className="font-medium">¿Presenta usted alguno de los siguientes antecedentes o factores de riesgo para la salud?</label>
-                <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-                    <div className="grid md:grid-cols-2 gap-3 mt-3">
+        <div className="w-full">
+            <h1 className="text-2xl font-bold mb-6 text-center">Crea una predicción</h1>
+            <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full">
+                <label className="font-medium">
+                    ¿Presenta usted alguno de los siguientes antecedentes o factores de riesgo para la salud?
+                </label>
+                <div className="space-y-6">
+                    <div className=" grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
                         {['HighBp', 'HighChol', 'Smoker', 'Stroke', 'HeartDiseaseorAttack'].map((field) => (
-                            <div key={field}>
+                            <div key={field} className="flex items-start space-x-2">
                                 <input
                                     type="checkbox"
                                     name={field}
                                     checked={formData[field]}
                                     onChange={handleChange}
-                                    className="mr-2"
+                                    className="mt-1"
                                     disabled={isSubmitting}
                                 />
-                                <label>
-                                    {fieldLabels[field]?.label}
-                                </label>
-                                {fieldLabels[field]?.comment &&(
-                                    <p className="text-gray-500 text-sm">
-                                        {fieldLabels[field].comment}
-                                    </p>
-                                )}
+                                <div className="flex-1">
+                                    <label className="text-sm sm:text-base">
+                                        {fieldLabels[field]?.label}
+                                    </label>
+                                    {fieldLabels[field]?.comment &&(
+                                        <p className="text-gray-500 text-xs sm:text-sm mt-1">
+                                            {fieldLabels[field].comment}
+                                        </p>
+                                    )}
+                                </div>
                             </div>
                         ))}
                     </div>
 
-                    <div key="BMI" className="grid grid-cols-1 mt-3">
+                    <div key="BMI" className="w-full">
                         <label className="block mb-2 font-medium">
                             {fieldLabels['BMI']?.label}
                         </label>
@@ -167,37 +171,54 @@ function PredictionForm() {
                             value={formData['BMI']}
                             onChange={handleChange}
                             min="12"
-                            className={styles.inputSelect}
+                            className="w-full p-2 border border-gray-300 rounded mb-4 focus:outline-none focus:ring focus:ring-blue-300"
                             disabled={isSubmitting}
                         />
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {['PhysActivity', 'GenHlth', 'MentHlth', 'PhysHlth'].map((field) => (
                             <div key={field}>
-                                <label className="block mb-2 font-medium">
+                                <label className="block mb-1 font-medium">
                                     {fieldLabels[field]?.label}
                                 </label>
                                 {fieldLabels[field]?.comment &&(
-                                    <p className="text-gray-500 text-sm">
+                                    <p className="text-gray-500 text-xs sm:text-sm">
                                         {fieldLabels[field].comment}
                                     </p>
                                 )}
                                 <Select
                                     options={optionsMap[field]}
-                                    onChange={(selectedOption) => handleChange({ target: { name: field, value: selectedOption.value } })}
+                                    onChange={(selectedOption) => 
+                                        handleChange({ 
+                                            target: { 
+                                                name: field, 
+                                                value: selectedOption.value 
+                                            } 
+                                        })
+                                    }
                                     isDisabled={isSubmitting}
-                                    className="mb-4"
+                                    className="mb-2"
                                     maxMenuHeight={120}
+                                    styles={{
+                                        control: (base) => ({
+                                            ...base,
+                                            minHeight: '42px'
+                                        })
+                                    }}
                                 />
                             </div>
                         ))}
                     </div>
                 </div>
+
                 <button 
-                type="submit" 
-                className={`w-full p-2 mt-5 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200 ${isSubmitting ? 'cursor-not-allowed' : ''}`} 
-                disabled={isSubmitting}>
+                    type="submit" 
+                    className={`w-full p-3 mt-6 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200 ${
+                        isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                    }`} 
+                    disabled={isSubmitting}
+                >
                     Enviar
                 </button>
             </form>
@@ -206,12 +227,3 @@ function PredictionForm() {
 }
 
 export default PredictionForm;
-
-// Estilos en Tailwind CSS para cada elemento del formulario
-const styles = {
-    formContainer: 'bg-white p-6 rounded-lg shadow-md w-full max-w-7xl mx-auto',
-    formTitle: 'text-2xl font-bold mb-4 text-center',
-    inputLabel: 'block mb-2 font-medium',
-    inputSelect: 'w-full p-2 border border-gray-300 rounded mb-4 focus:outline-none focus:ring focus:ring-blue-300',
-    inputField: 'w-full p-2 border border-gray-300 rounded mb-4 focus:outline-none focus:ring focus:ring-blue-300',
-};
