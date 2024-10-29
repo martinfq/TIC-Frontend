@@ -17,13 +17,16 @@ function PredictionForm() {
     const [fieldLabels, setFieldLabels] = useState({fieldLabelsData}); 
     const [authToken, setAuthToken] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errors, setErrors] = useState({}); // Estado para los mensajes de error
 
+    // Opciones para los ComboBox
     const optionsMap = {
         PhysActivity: [{ value: 0, label: 'No' }, { value: 1, label: 'Si' }],
         GenHlth: [{ value: 1, label: 'Excelente' }, { value: 2, label: 'Buena' } , { value: 3, label: 'Regular' }, { value: 4, label: 'Mala' }, { value: 3, label: 'Muy Mala' }],
         MentHlth: Array.from({ length: 31 }, (_, i) => ({ value: i, label: i.toString() })),
         PhysHlth: Array.from({ length: 31 }, (_, i) => ({ value: i, label: i.toString() })),
     };
+
     // Al cargar el componente, obtiene el token de autenticación y lo guarda en el estado
     useEffect(() => {
         const token = getToken();
@@ -48,20 +51,50 @@ function PredictionForm() {
     });
 
 
-    // Función para manejar cambios en los campos del formulario
+    // Función para manejar cambios en los campos de CheckBox e Input
     const handleChange = (e) => {
+        e.preventDefault();
         const { name, type, checked, value } = e.target;
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
             [name]: type === 'checkbox' ? checked : value,
         });
+        // Quita el mensaje de error del campo
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: '',  
+        }));
+    };
+
+    // Función para manejar cambios en los campos de CheckBox e Input
+    const handleSelectChange = (name, selectedOption) => {
+        setFormData({
+            ...formData,
+            [name]: selectedOption ? selectedOption.value : '',
+        });
+        // Quita el mensaje de error del campo
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: '',  
+        }));
+    };
+
+    // Función de validación
+    const validateFields = () => {
+        const newErrors = {};
+        if (!formData.BMI) newErrors.BMI = 'El campo de IMC es obligatorio y debe ser mayor a 12';
+        if (formData.PhysActivity === '') newErrors.PhysActivity = 'Seleccione una opción para Actividad Física';
+        if (formData.GenHlth === '') newErrors.GenHlth = 'Seleccione una opción para Salud General';
+        if (formData.MentHlth === '') newErrors.MentHlth = 'Seleccione una opción para Salud Mental';
+        if (formData.PhysHlth === '') newErrors.PhysHlth = 'Seleccione una opción para Salud Física';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     // Función que maneja el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         // Muestra una alerta de carga con SweetAlert2
         setIsSubmitting(true);
         swalAlerts.fire({
@@ -72,7 +105,7 @@ function PredictionForm() {
                 swalAlerts.showLoading();
             },
         });
-
+        
         // Formatea los datos del formulario para el envío
         const formattedData = {
             HighBp: parseFloat(formData.HighBp === 'true' ? '1.0' : '0.0'),
@@ -87,7 +120,6 @@ function PredictionForm() {
             PhysHlth: parseFloat(formData.PhysHlth),
         };
     
-
         // Envía los datos formateados a la API
         try {
             const response = await fetch(API_URL + '/predict/register', {
@@ -109,8 +141,7 @@ function PredictionForm() {
                     if(result.isConfirmed) window.location.reload();
                   })
             } else {
-                throw new Error("Error");
-                
+                throw new Error("Error");  
             }
             
         } catch (error) {
@@ -121,6 +152,8 @@ function PredictionForm() {
                 icon: 'error',
                 confirmButtonText: 'OK'
               });
+            // Validacaion de los campos con error
+            if (!validateFields()) return;
         } finally {
             setIsSubmitting(false); // Termina el estado de envío
         }
@@ -170,9 +203,10 @@ function PredictionForm() {
                             value={formData['BMI']}
                             onChange={handleChange}
                             min="12"
-                            className="w-full p-2 border border-gray-300 rounded mb-4 focus:outline-none focus:ring focus:ring-blue-300"
+                            className={`w-full p-2 border ${errors.BMI ? 'border-red-500' : 'border-gray-300'} rounded mb-1 focus:outline-none focus:ring focus:ring-blue-300`}
                             disabled={isSubmitting}
                         />
+                        {errors.BMI && <p className="text-red-500 text-sm mt-1">{errors.BMI}</p>}
                     </div>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -188,24 +222,19 @@ function PredictionForm() {
                                 )}
                                 <Select
                                     options={optionsMap[field]}
-                                    onChange={(selectedOption) => 
-                                        handleChange({ 
-                                            target: { 
-                                                name: field, 
-                                                value: selectedOption.value 
-                                            } 
-                                        })
-                                    }
+                                    onChange={(selectedOption) => handleSelectChange(field, selectedOption)}
                                     isDisabled={isSubmitting}
                                     className="mb-2"
                                     maxMenuHeight={120}
                                     styles={{
                                         control: (base) => ({
                                             ...base,
-                                            minHeight: '42px'
+                                            minHeight: '42px',
+                                            borderColor: errors[field] ? 'red' : base.borderColor
                                         })
                                     }}
                                 />
+                                {errors[field] && <p className="text-red-500 text-sm mt-1">{errors[field]}</p>}
                             </div>
                         ))}
                     </div>
