@@ -30,6 +30,6 @@ function Footer() {
 export default Footer;
 
 const styles = {
-    footer: 'w-full flex flex-col p-4 mt-4 justify-between items-center bg-blue-600  text-white text-center',
+    footer: 'w-full flex flex-col p-4 mt-4 justify-between items-center bg-primary  text-white text-center',
     footerCopyright: 'flex items-center font-medium p-2'
 };

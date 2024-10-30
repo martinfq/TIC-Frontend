@@ -195,7 +195,7 @@ function PredictionForm() {
                 </div>
                 <button 
                 type="submit" 
-                className={`w-full p-2 mt-5 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200 ${isSubmitting ? 'cursor-not-allowed' : ''}`} 
+                className={`w-full p-2 mt-5 bg-primary text-white rounded hover:bg-primary_hover transition duration-200 ${isSubmitting ? 'cursor-not-allowed' : ''}`} 
                 disabled={isSubmitting}>
                     Enviar
                 </button>

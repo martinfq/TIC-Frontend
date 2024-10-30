@@ -45,9 +45,9 @@ function NavBar() {
 export default NavBar;
 
 const styles = {
-    navbar: 'w-full flex flex-col md:flex-row justify-between items-center bg-blue-600 p-4 text-white ',
+    navbar: 'w-full flex flex-col md:flex-row justify-between items-center bg-primary p-4 text-white ',
     navbarLinks: 'flex space-x-6 mb-2 text-xl md:mb-0',
     welcomeText: 'text-xl',
-    logoutButton: 'bg-blue-700 p-2 rounded shadow transition duration-500 hover:shadow-lg hover:bg-blue-600',
+    logoutButton: 'bg-secondary p-2 rounded shadow transition duration-500 hover:shadow-lg hover:bg-secondary_hover',
     logo: 'text-2xl font-semibold'
 };
