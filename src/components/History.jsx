@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from './layout/NavBar';
+import Footer from './layout/Footer';
 import getToken from '../utils/getToken';
 import manage401 from '../utils/manage401';
 
@@ -39,7 +40,7 @@ function History() {
 
     // Función para manejar la selección y apertura del modal
     const handleButtonClick = (item) => {
-        setSelectedPrediction(item.prediction); // Guarda solo la predicción seleccionada
+        setSelectedPrediction(item); // Guarda solo la predicción seleccionada
         setIsModalOpen(true); // Abre el modal
     };
 
@@ -54,6 +55,16 @@ function History() {
         const booleanFields = ["Stroke", "HighBp", "HeartDiseaseorAttack", "PhysActivity", "Smoker", "HighChol"];
         if (booleanFields.includes(key)) {
             return value === 1.0 ? "Si" : "No";
+        }
+        if(key === "GenHlth"){
+            const GenHlthDescriptions = {
+                1: "Muy Mala",
+                2: "Mala",
+                3: "Regular",
+                4: "Buena",
+                5: "Excelente"
+            };
+            return GenHlthDescriptions[value];
         }
         return value; // Si no es booleano, devolver el valor tal cual
     };
@@ -75,7 +86,7 @@ function History() {
                             {predictions.map((item, index) => (
                                 <tr key={index} className={styles.tr}>
                                     <td className={styles.td}>{item.date}</td>
-                                    <td className={styles.td}>{item.prediction.Prediction}</td>
+                                    <td className={styles.td}>{(item.prediction*100).toFixed(2)}%</td>
                                     <td className={styles.td}>
                                         <button
                                             onClick={() => handleButtonClick(item)}
@@ -101,18 +112,18 @@ function History() {
                         <div className={styles.modalSection}>
                             <h3>Datos de Salud</h3>
                             <ul>
-                                <li><strong>Stroke:</strong> {formatValue("Stroke", selectedPrediction.Stroke)}</li>
-                                <li><strong>Hipertensión:</strong> {formatValue("HighBp", selectedPrediction.HighBp)}</li>
+                                <li><strong>Historial de derrame cerebral:</strong> {formatValue("Stroke", selectedPrediction.Stroke)}</li>
+                                <li><strong>Presion Arterial Alta:</strong> {formatValue("HighBp", selectedPrediction.HighBp)}</li>
                                 <li><strong>Enfermedad Cardiovascular:</strong> {formatValue("HeartDiseaseorAttack", selectedPrediction.HeartDiseaseorAttack)}</li>
-                                <li><strong>Actividad Física:</strong> {formatValue("PhysActivity", selectedPrediction.PhysActivity)}</li>
-                                <li><strong>Fumador:</strong> {formatValue("Smoker", selectedPrediction.Smoker)}</li>
+                                <li><strong>Actividad Física en el último mes:</strong> {formatValue("PhysActivity", selectedPrediction.PhysActivity)}</li>
+                                <li><strong>Fumador Habitual:</strong> {formatValue("Smoker", selectedPrediction.Smoker)}</li>
                                 <li><strong>Colesterol Alto:</strong> {formatValue("HighChol", selectedPrediction.HighChol)}</li>
-                                <li><strong>Salud General:</strong> {selectedPrediction.GenHlth}</li>
-                                <li><strong>Salud Física:</strong> {selectedPrediction.PhysHlth} días</li>
-                                <li><strong>Salud Mental:</strong> {selectedPrediction.MentHlth} días</li>
+                                <li><strong>Salud General:</strong> {formatValue("GenHlth", selectedPrediction.GenHlth)}</li>
+                                <li><strong>Problemas con su Salud Física:</strong> {selectedPrediction.PhysHlth} días</li>
+                                <li><strong>Problemas con su Salud Mental:</strong> {selectedPrediction.MentHlth} días</li>
                                 <li><strong>Edad:</strong> {selectedPrediction.Age} años</li>
                                 <li><strong>Índice de Masa Corporal (BMI):</strong> {selectedPrediction.BMI}</li>
-                                <li><strong>Predicción de riesgo:</strong> {selectedPrediction.Prediction.toFixed(4)}</li>
+                                <li><strong>Predicción de riesgo:</strong> {(selectedPrediction.prediction*100).toFixed(2)}%</li>
                             </ul>
                         </div>
 
@@ -122,6 +133,7 @@ function History() {
                     </div>
                 </div>
             )}
+            <Footer/>
         </>
     );
 }
