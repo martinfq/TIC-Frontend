@@ -1,78 +1,72 @@
-import { useEffect, useState } from 'react';
-import FormPrediction from './PredictionForm/FormPrediction';
-import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
-import Navbar from './Navbar';
-import './Home.css';
+import React, { useEffect, useState } from 'react';
+import NavBar from './layout/NavBar';
+import PredictionForm from './home/PredictionForm';
+import UserCards from './home/UserCards';
+import PredictionCard from './home/PredictionCard';
+import RecomendationCard from './home/RecomendationCard';
+import Footer from './layout/Footer';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
-  const [email, setEmail] = useState('');
-  const [authToken, setAuthToken] = useState('');
-  const [prediction, setPrediction] = useState(false);
-
-  useEffect(() => {
-    const token = Cookies.get('auth');
-    if (token) {
-      setAuthToken(token);
-      const emailToken = jwtDecode(token).email;
-      setEmail(emailToken);
-    } else {
-      console.error('No auth token found.');
-    }
-  }, []);
-
   return (
-    <>
-      <Navbar setEmail={setEmail} setAuthToken={setAuthToken} />
-      <div className="flex flex-col md:flex-row p-10 bg-gray-100 min-h-screen">
-        <div className="md:flex-1 bg-white p-6 rounded-lg shadow-md md:mx-2 mb-5">
-          <h1 className="text-2xl font-bold mb-4 text-center">Crea una predicción</h1>
-          <FormPrediction authToken={authToken} setPrediction={setPrediction} />
-        </div>
-        <div className="md:flex-1 bg-gray-200 p-6 rounded-lg md:mx-2 mb-5">
-          <div className="flex flex-col space-y-4">
-            <div
-              className="flex justify-between bg-white p-4 rounded-lg shadow-md"
-              style={{ height: '150px', display: 'flex', alignItems: 'center' }}
-            >
-              <div className="text-center">
-                <h3 className="font-bold">Género</h3>
-              </div>
-              <div className="text-center">
-                <h3 className="font-bold">Edad</h3>
-              </div>
-              <div className="text-center">
-                <h3 className="font-bold">Foto</h3>
-              </div>
-            </div>
+    // <div className="flex flex-col min-h-screen">
+    //   <NavBar/>
+    //   <main className="flex px-6 pt-4 bg-gray-100 min-h-screen place-items-center gap-x-4 items-start">
+    //     <PredictionForm />
+    //     <div className="w-2/5 p-3">
+    //       <h1 className="text-2xl font-bold text-center">Información</h1>
+    //       <UserCards />
+    //       <h1 className="text-2xl mt-10 mb-2 font-bold text-center">Diagnostico</h1>
+    //       <PredictionCard />
+    //       <h1 className="text-2xl mt-10 mb-2 font-bold text-center">Recomendaciones</h1>
+    //       <RecomendationCard />
+    //     </div>
+    //   </main>
+    //   <Footer/>
+    // </div>
 
-            <div
-              className="bg-white p-4 rounded-lg shadow-md"
-              style={{ height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              <h3 className="font-bold text-center">Porcentaje de padecimiento</h3>
-            </div>
 
-            <div
-              className="bg-white p-4 rounded-lg shadow-md"
-              style={{ height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              <h3 className="font-bold text-center">No</h3>
-            </div>
 
-            <div className="flex justify-center mt-4">
-              <button
-                className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
-                style={{ width: '50%' }}
-                onClick={() => window.location.href = '/history'}
-              >
-                Registro de predicciones
-              </button>
-            </div>
-          </div>
-        </div>
+
+<div className="flex flex-col min-h-screen">
+<NavBar/>
+<main className="flex-grow bg-gray-100">
+  <div className="container mx-auto px-4 py-6">
+    <div className="flex flex-col lg:flex-row gap-6">
+      {/* Form section - full width on mobile, 3/5 on desktop */}
+      <div className="w-full lg:w-3/5">
+        <PredictionForm />
       </div>
-    </>
+      
+      {/* Information section - full width on mobile, 2/5 on desktop */}
+      <div className="w-full lg:w-2/5 space-y-6">
+        <section>
+          <h1 className="text-2xl font-bold text-center mb-4">
+            Información
+          </h1>
+          <UserCards />
+        </section>
+
+        <section>
+          <h1 className="text-2xl font-bold text-center mb-4">
+            Diagnostico
+          </h1>
+          <PredictionCard />
+        </section>
+
+        <section>
+          <h1 className="text-2xl font-bold text-center mb-4">
+            Recomendaciones
+          </h1>
+          <RecomendationCard />
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+<Footer/>
+</div>
   );
 };
 
