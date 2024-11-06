@@ -17,7 +17,7 @@ const Home = () => {
         <div className="w-2/5 p-3">
           <h1 className={styles.formTitleTop}>Información</h1>
           <UserCards />
-          <h1 className={styles.formTitleBott}>Diagnostico</h1>
+          <h1 className={styles.formTitleBott}>Diagnóstico</h1>
           <PredictionCard />
           <h1 className={styles.formTitleBott}>Recomendaciones</h1>
           <RecomendationCard />
