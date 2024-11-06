@@ -241,18 +241,12 @@ function PredictionForm() {
                 </div>
 
                 <button 
-<<<<<<< HEAD
-                type="submit" 
-                className={`w-full p-2 mt-5 bg-primary text-white rounded hover:bg-primary_hover transition duration-200 ${isSubmitting ? 'cursor-not-allowed' : ''}`} 
-                disabled={isSubmitting}>
-=======
                     type="submit" 
                     className={`w-full p-3 mt-6 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200 ${
                         isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
                     }`} 
                     disabled={isSubmitting}
                 >
->>>>>>> 205b11b01ccda2b64275f494ecca1e7989d09d2b
                     Enviar
                 </button>
             </form>
