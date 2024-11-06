@@ -242,7 +242,7 @@ function PredictionForm() {
 
                 <button 
                     type="submit" 
-                    className={`w-full p-3 mt-6 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200 ${
+                    className={`w-full p-3 mt-6 bg-primary text-white rounded hover:bg-primary_hover transition duration-200 ${
                         isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
                     }`} 
                     disabled={isSubmitting}

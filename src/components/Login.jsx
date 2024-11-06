@@ -13,7 +13,7 @@ const styles = {
   title: 'text-2xl font-bold mb-4 text-center',
   errorText: 'text-red-500 mb-4',
   input: 'w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300',
-  button: 'w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200 mt-4',
+  button: 'w-full p-2 bg-primary text-white rounded hover:bg-primary_hover transition duration-200 mt-4',
   registerLink: 'text-blue-500 hover:underline',
   togglePassword: 'absolute right-3 top-3 cursor-pointer',
   inputError: 'text-red-500 text-sm mt-1 mb-4',

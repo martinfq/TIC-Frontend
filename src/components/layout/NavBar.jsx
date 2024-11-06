@@ -27,9 +27,9 @@ function NavBar() {
     };
 
     return (
-        <nav className="w-full bg-blue-600 text-white shadow-md">
+        <nav className="w-full bg-primary text-white shadow-md">
             {/* Escritorio y Mobile  */}
-            <div className="max-w-[1440px] mx-auto px-4">
+            <div className="max-w mx-auto px-4">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <h1 className="text-xl md:text-2xl font-semibold">
@@ -49,7 +49,7 @@ function NavBar() {
                             <li>
                                 <a 
                                     href="/" 
-                                    className="hover:text-blue-200 hover:underline transition-colors duration-200"
+                                    className="hover:bg-primary_hover  hover:underline transition-colors duration-200"
                                 >
                                     Home
                                 </a>
@@ -57,7 +57,7 @@ function NavBar() {
                             <li>
                                 <a 
                                     href="/historial" 
-                                    className="hover:text-blue-200 hover:underline transition-colors duration-200"
+                                    className="hover:bg-primary_hover  hover:underline transition-colors duration-200"
                                 >
                                     Historial
                                 </a>
@@ -65,7 +65,7 @@ function NavBar() {
                         </ul>
                         <button 
                             onClick={handleLogout}
-                            className="bg-blue-700 px-4 py-2 rounded-md hover:bg-blue-800 transition-colors duration-200 text-sm font-medium"
+                            className="bg-secondary px-4 py-2 rounded-md hover:bg-secondary_hover transition-colors duration-200 text-sm font-medium"
                         >
                             Salir
                         </button>
@@ -73,7 +73,7 @@ function NavBar() {
 
                     {/* Boton del Menu en Mobile */}
                     <button 
-                        className="md:hidden p-2 hover:bg-blue-700 rounded-md"
+                        className="md:hidden p-2 hover:bg-primary_hover rounded-md"
                         onClick={toggleMenu}
                     >
                         {isMenuOpen ? (
@@ -87,15 +87,15 @@ function NavBar() {
 
             {/* Menu Mobile */}
             <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
-                <div className="px-4 pt-2 pb-4 space-y-3 bg-blue-600 border-t border-blue-500">
-                    <h3 className="text-lg py-2 border-b border-blue-500">
+                <div className="px-4 pt-2 pb-4 space-y-3 bg-primary border-t border-white">
+                    <h3 className="text-lg py-2 border-b border-white">
                         Bienvenido {email}!
                     </h3>
                     <ul className="space-y-3">
                         <li>
                             <a 
                                 href="/" 
-                                className="block py-2 hover:bg-blue-700 rounded-md px-3 transition-colors duration-200"
+                                className="block py-2 hover:bg-primary_hover rounded-md px-3 transition-colors duration-200"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 Home
@@ -104,7 +104,7 @@ function NavBar() {
                         <li>
                             <a 
                                 href="/historial" 
-                                className="block py-2 hover:bg-blue-700 rounded-md px-3 transition-colors duration-200"
+                                className="block py-2 hover:bg-primary_hover rounded-md px-3 transition-colors duration-200"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 Historial
@@ -114,7 +114,7 @@ function NavBar() {
                     <div className="pt-2">
                         <button 
                             onClick={handleLogout}
-                            className="w-full bg-blue-700 px-4 py-2 rounded-md hover:bg-blue-800 transition-colors duration-200 text-sm font-medium"
+                            className="w-full bg-secondary px-4 py-2 rounded-md hover:bg-secondary_hover transition-colors duration-200 text-sm font-medium"
                         >
                             Salir
                         </button>

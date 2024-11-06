@@ -70,9 +70,9 @@ function History() {
     };
 
     return (
-        <>
+        <div className="flex flex-col min-h-screen">
             <NavBar />
-            <div className={styles.container}>
+            <main className={styles.container}>
                 {predictions ? (
                     <table className={styles.table}>
                         <thead className={styles.thead}>
@@ -100,9 +100,9 @@ function History() {
                         </tbody>
                     </table>
                 ) : (
-                    <h1>Cargando</h1>
+                    <h1>Cargando.......</h1>
                 )}
-            </div>
+            </main>
 
             {isModalOpen && selectedPrediction && (
                 <div className={styles.modalOverlay}>
@@ -134,23 +134,23 @@ function History() {
                 </div>
             )}
             <Footer/>
-        </>
+        </div>
     );
 }
 
 export default History;
 
 const styles = {
-    container: "max-w-4xl mx-auto my-6 p-4 bg-gray-50 rounded-lg shadow-md",
+    container: "max-w-4xl min-w-80 mx-auto my-6 p-4 bg-gray-50 rounded-lg shadow-md flex-grow",
     table: "min-w-full bg-white border border-gray-300",
     thead: "bg-gray-200",
     th: "py-2 px-4 border-b text-left",
     tbody: "",
     tr: "hover:bg-gray-100",
     td: "py-2 px-4 border-b",
-    button: "bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600",
+    button: "bg-primary text-white px-4 py-1 rounded hover:bg-primary_hover",
     modalOverlay: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center",
     modalContent: "bg-white p-6 rounded shadow-md max-w-lg w-full",
-    closeButton: "bg-red-500 text-white px-4 py-1 rounded mt-4 hover:bg-red-600",
+    closeButton: "bg-secondary text-white px-4 py-1 rounded mt-4 hover:bg-secondary_hover",
     modalSection: "mb-4"
 };
