@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import './PredictionForm.css';
 import withReactContent from 'sweetalert2-react-content';
 import getToken from '../../utils/getToken';
 import fieldLabelsData from '../Data/fieldsForm.json';
@@ -22,7 +23,7 @@ function PredictionForm() {
     // Opciones para los ComboBox
     const optionsMap = {
         PhysActivity: [{ value: 0, label: 'No' }, { value: 1, label: 'Si' }],
-        GenHlth: [{ value: 1, label: 'Excelente' }, { value: 2, label: 'Buena' } , { value: 3, label: 'Regular' }, { value: 4, label: 'Mala' }, { value: 3, label: 'Muy Mala' }],
+        GenHlth: [{ value: 1, label: 'Excelente' }, { value: 2, label: 'Buena' } , { value: 3, label: 'Regular' }, { value: 4, label: 'Mala' }, { value: 5, label: 'Muy Mala' }],
         MentHlth: Array.from({ length: 31 }, (_, i) => ({ value: i, label: i.toString() })),
         PhysHlth: Array.from({ length: 31 }, (_, i) => ({ value: i, label: i.toString() })),
     };
@@ -51,19 +52,15 @@ function PredictionForm() {
     });
 
 
-    // Función para manejar cambios en los campos de CheckBox e Input
     const handleChange = (e) => {
-        e.preventDefault();
         const { name, type, checked, value } = e.target;
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
-            [name]: type === 'checkbox' ? checked : value,
+            [name]: type === 'checkbox' ? (checked ? true : false) : value,
         });
-        // Quita el mensaje de error del campo
         setErrors((prevErrors) => ({
             ...prevErrors,
-            [name]: '',  
+            [name]: '',
         }));
     };
 
@@ -95,6 +92,8 @@ function PredictionForm() {
     // Función que maneja el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(!validateFields()) return;
+
         // Muestra una alerta de carga con SweetAlert2
         setIsSubmitting(true);
         swalAlerts.fire({
@@ -108,11 +107,11 @@ function PredictionForm() {
         
         // Formatea los datos del formulario para el envío
         const formattedData = {
-            HighBp: parseFloat(formData.HighBp === 'true' ? '1.0' : '0.0'),
-            HighChol: parseFloat(formData.HighChol === 'true' ? '1.0' : '0.0'),
-            Smoker: parseFloat(formData.Smoker === 'true' ? '1.0' : '0.0'),
-            Stroke: parseFloat(formData.Stroke === 'true' ? '1.0' : '0.0'),
-            HeartDiseaseorAttack: parseFloat(formData.HeartDiseaseorAttack === 'true' ? '1.0' : '0.0'),
+            HighBp: parseFloat(formData.HighBp ? '1.0' : '0.0'),
+            HighChol: parseFloat(formData.HighChol ? '1.0' : '0.0'),
+            Smoker: parseFloat(formData.Smoker ? '1.0' : '0.0'),
+            Stroke: parseFloat(formData.Stroke ? '1.0' : '0.0'),
+            HeartDiseaseorAttack: parseFloat(formData.HeartDiseaseorAttack ? '1.0' : '0.0'),
             BMI: parseFloat(formData.BMI),
             PhysActivity: parseFloat(formData.PhysActivity),
             GenHlth: parseFloat(formData.GenHlth),
@@ -130,7 +129,6 @@ function PredictionForm() {
                 },
                 body: JSON.stringify(formattedData),
             });
-            
             // Si la respuesta es exitosa, muestra una alerta de éxito y recarga la página
             if (response.ok) {
                 swalAlerts.fire({
@@ -165,7 +163,10 @@ function PredictionForm() {
             <h1 className="text-2xl font-bold mb-6 text-center">Crea una predicción</h1>
             <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full">
                 <label className="font-medium">
-                    ¿Presenta usted alguno de los siguientes antecedentes o factores de riesgo para la salud?
+                    ¿Presenta usted alguno de los siguientes antecedentes o factores de riesgo para la salud?<br></br>
+                </label>
+                <label className="font-small comments text-gray-500">
+                    Seleccione todas las opciones que apliquen
                 </label>
                 <div className="space-y-6">
                     <div className=" grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
@@ -210,33 +211,103 @@ function PredictionForm() {
                     </div>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        {['PhysActivity', 'GenHlth', 'MentHlth', 'PhysHlth'].map((field) => (
-                            <div key={field}>
-                                <label className="block mb-1 font-medium">
-                                    {fieldLabels[field]?.label}
-                                </label>
-                                {fieldLabels[field]?.comment &&(
-                                    <p className="text-gray-500 text-xs sm:text-sm">
-                                        {fieldLabels[field].comment}
-                                    </p>
-                                )}
-                                <Select
-                                    options={optionsMap[field]}
-                                    onChange={(selectedOption) => handleSelectChange(field, selectedOption)}
-                                    isDisabled={isSubmitting}
-                                    className="mb-2"
-                                    maxMenuHeight={120}
-                                    styles={{
-                                        control: (base) => ({
-                                            ...base,
-                                            minHeight: '42px',
-                                            borderColor: errors[field] ? 'red' : base.borderColor
-                                        })
-                                    }}
-                                />
-                                {errors[field] && <p className="text-red-500 text-sm mt-1">{errors[field]}</p>}
-                            </div>
-                        ))}
+                        <div className="flex flex-col" style={{ justifyContent: 'space-between' }}>
+                            <label className="block mb-1 font-medium">
+                                {fieldLabels['PhysActivity']?.label}
+                            </label>
+                            <Select
+                                options={optionsMap['PhysActivity']}
+                                onChange={(selectedOption) => handleSelectChange('PhysActivity', selectedOption)}
+                                placeholder={"Seleccione..."}
+                                isDisabled={isSubmitting}
+                                className="mb-2"
+                                maxMenuHeight={120}
+                                styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        minHeight: '42px',
+                                        borderColor: errors['PhysActivity'] ? 'red' : base.borderColor
+                                    })
+                                }}
+                            />
+                            {errors['PhysActivity'] && <p className="text-red-500 text-sm mt-1">{errors['PhysActivity']}</p>}
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label className="block mb-1 font-medium">
+                                {fieldLabels['GenHlth']?.label}
+                            </label>
+                            <Select
+                                options={optionsMap['GenHlth']}
+                                onChange={(selectedOption) => handleSelectChange('GenHlth', selectedOption)}
+                                placeholder={"Seleccione..."}
+                                isDisabled={isSubmitting}
+                                className="mb-2"
+                                maxMenuHeight={120}
+                                styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        minHeight: '42px',
+                                        borderColor: errors['GenHlth'] ? 'red' : base.borderColor
+                                    })
+                                }}
+                            />
+                            {errors['GenHlth'] && <p className="text-red-500 text-sm mt-1">{errors['GenHlth']}</p>}
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label className="block mb-1 font-medium">
+                                {fieldLabels['MentHlth']?.label}
+                            </label>
+                            {fieldLabels['MentHlth']?.comment && (
+                                <p className="comments text-gray-500">
+                                    {fieldLabels['MentHlth'].comment}
+                                </p>
+                            )}
+                            <Select
+                                options={optionsMap['MentHlth']}
+                                onChange={(selectedOption) => handleSelectChange('MentHlth', selectedOption)}
+                                placeholder={"Seleccione..."}
+                                isDisabled={isSubmitting}
+                                className="mb-2"
+                                maxMenuHeight={120}
+                                styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        minHeight: '42px',
+                                        borderColor: errors['MentHlth'] ? 'red' : base.borderColor
+                                    })
+                                }}
+                            />
+                            {errors['MentHlth'] && <p className="text-red-500 text-sm mt-1">{errors['MentHlth']}</p>}
+                        </div>
+
+                        <div className="flex flex-col" style={{ justifyContent: 'space-between' }}>
+                            <label className="block mb-1 font-medium">
+                                {fieldLabels['PhysHlth']?.label}
+                            </label>
+                            {fieldLabels['PhysHlth']?.comment && (
+                                <p className="comments text-gray-500">
+                                    {fieldLabels['PhysHlth'].comment}
+                                </p>
+                            )}
+                            <Select
+                                options={optionsMap['PhysHlth']}
+                                onChange={(selectedOption) => handleSelectChange('PhysHlth', selectedOption)}
+                                placeholder={"Seleccione..."}
+                                isDisabled={isSubmitting}
+                                className="mb-2"
+                                maxMenuHeight={120}
+                                styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        minHeight: '42px',
+                                        borderColor: errors['PhysHlth'] ? 'red' : base.borderColor
+                                    })
+                                }}
+                            />
+                            {errors['PhysHlth'] && <p className="text-red-500 text-sm mt-1">{errors['PhysHlth']}</p>}
+                        </div>
                     </div>
                 </div>
 
