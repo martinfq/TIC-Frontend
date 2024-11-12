@@ -26,7 +26,8 @@ export function usePrediction() {
             }
 
             const result = await response.json();
-            setData({ value: Math.round(result.prediction * 100), class: result.class });
+            const predictionResult = result.prediction != null ? Math.round(result.prediction * 100) : null
+            setData({ value: predictionResult , class: result.class });
         } catch (err) {
             console.error(err);
         }
