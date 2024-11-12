@@ -1,53 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import getToken from '../../utils/getToken';
-import manage401 from '../../utils/manage401';
-
-
-const API_URL = import.meta.env.VITE_API_URL;
+import React from 'react';
+import { usePrediction } from '../../hooks/useLastPrediction';
 
 function PredictionCard() {
-    const [preditc, setPredict] = useState(null);
+    const prediction = usePrediction();
 
-    const fetchPredict = async (token) => {
-        try {
-            const response = await fetch(API_URL + `/last-predict/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Agrega el token aquí
-                },
-            });
-            if (response.status === 401) {
-                manage401()
-            }
-            if (!response.ok) {
-                throw new Error('Error al obtener los datos');
-            }
-            const result = await response.json();
-            const prediction = result.prediction
-            setPredict(Math.round(prediction * 100));
-        } catch (err) {
-            console.error(err);
-        }
-    };
-    useEffect(() => {
-        const token = getToken();
-        if (token) fetchPredict(token);
-    }, []);
-
-    return (
-        <div
-            className={`p-8 rounded-lg shadow-lg w-full text-center mt-6 transition-all duration-500 hover:scale-105 hover:shadow-blue-600 
-                ${!preditc ? 'bg-gray-400' 
-                    : preditc < 50 ? 'bg-green-500' 
-                        : preditc < 60 ? 'bg-yellow-500' 
-                            : 'bg-red-500'
-                }`}
-        >
-            <h2 className="text-2xl font-semibold text-white">Última Predicción</h2>
-            <p className="mt-4 text-4xl text-white">{preditc ? `${preditc}%` : 'No tiene predicciones'}</p>
-        </div>
-    );
+    if(prediction.class == "1" || prediction.class == null){
+        return (
+            <div
+                className={`p-8 rounded-lg shadow-lg w-full text-center mt-6 transition-all duration-500 hover:scale-105 hover:shadow-blue-600 
+                    ${prediction.value === null ? 'bg-gray-400' 
+                        : prediction.value < 50 ? 'bg-green-500' 
+                            : prediction.value < 60 ? 'bg-yellow-500' 
+                                : 'bg-red-500'
+                    }`}
+            >
+                <h2 className="text-2xl font-semibold text-white">Última Predicción</h2>
+                <p className="mt-4 text-4xl text-white">
+                    {prediction.value !== null ? `${prediction.value}%` : 'No tiene predicciones'}
+                </p>
+            </div>
+        );
+    }
+    else if(prediction.class == "0"){
+        return (
+            <div
+                className={`p-8 rounded-lg shadow-lg w-full text-center mt-6 transition-all duration-500 hover:scale-105 hover:shadow-blue-600 bg-green-500`}
+            >
+                <h2 className="text-2xl font-semibold text-white">Felicidades, se encuentra saludable.</h2>
+                <p className="mt-4 text-4xl text-white">
+                    {'No presenta riesgo de diabetes'}
+                </p>
+            </div>
+        );
+    }
 }
 
 export default PredictionCard;
