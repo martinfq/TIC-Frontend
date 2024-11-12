@@ -5,7 +5,7 @@ import manage401 from '../utils/manage401';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export function usePrediction() {
-    const [data, setData] = useState<{ value: number | null, class: string | null }>({ value: null, class: null });
+    const [data, setData] = useState({ value: null, class: null });
 
     const fetchPrediction = async (token) => {
         try {
