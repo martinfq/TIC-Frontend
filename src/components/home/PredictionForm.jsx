@@ -15,7 +15,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 function PredictionForm() {
 
-    const [fieldLabels, setFieldLabels] = useState({fieldLabelsData}); 
+    const [fieldLabels, setFieldLabels] = useState({ fieldLabelsData });
     const [authToken, setAuthToken] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({}); // Estado para los mensajes de error
@@ -23,7 +23,7 @@ function PredictionForm() {
     // Opciones para los ComboBox
     const optionsMap = {
         PhysActivity: [{ value: 0, label: 'No' }, { value: 1, label: 'Si' }],
-        GenHlth: [{ value: 1, label: 'Excelente' }, { value: 2, label: 'Buena' } , { value: 3, label: 'Regular' }, { value: 4, label: 'Mala' }, { value: 5, label: 'Muy Mala' }],
+        GenHlth: [{ value: 1, label: 'Excelente' }, { value: 2, label: 'Buena' }, { value: 3, label: 'Regular' }, { value: 4, label: 'Mala' }, { value: 5, label: 'Muy Mala' }],
         MentHlth: Array.from({ length: 31 }, (_, i) => ({ value: i, label: i.toString() })),
         PhysHlth: Array.from({ length: 31 }, (_, i) => ({ value: i, label: i.toString() })),
     };
@@ -45,6 +45,8 @@ function PredictionForm() {
         Stroke: false,
         HeartDiseaseorAttack: false,
         BMI: '',
+        height: '',
+        weight: '',
         PhysActivity: '',
         GenHlth: '',
         MentHlth: '',
@@ -73,14 +75,15 @@ function PredictionForm() {
         // Quita el mensaje de error del campo
         setErrors((prevErrors) => ({
             ...prevErrors,
-            [name]: '',  
+            [name]: '',
         }));
     };
 
     // Función de validación
     const validateFields = () => {
         const newErrors = {};
-        if (!formData.BMI) newErrors.BMI = 'El campo de IMC es obligatorio y debe ser mayor a 12';
+        if (!formData.height) newErrors.height = 'El campo de altura es obligatorio';
+        if (!formData.weight) newErrors.weight = 'El campo de peso es obligatorio';
         if (formData.PhysActivity === '') newErrors.PhysActivity = 'Seleccione una opción para Actividad Física';
         if (formData.GenHlth === '') newErrors.GenHlth = 'Seleccione una opción para Salud General';
         if (formData.MentHlth === '') newErrors.MentHlth = 'Seleccione una opción para Salud Mental';
@@ -89,10 +92,14 @@ function PredictionForm() {
         return Object.keys(newErrors).length === 0;
     };
 
+    const calculateBMI = (height, weight) =>{
+        return height / Math.pow((weight/100),2)
+    }
+
     // Función que maneja el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(!validateFields()) return;
+        if (!validateFields()) return;
 
         // Muestra una alerta de carga con SweetAlert2
         setIsSubmitting(true);
@@ -104,7 +111,7 @@ function PredictionForm() {
                 swalAlerts.showLoading();
             },
         });
-        
+
         // Formatea los datos del formulario para el envío
         const formattedData = {
             HighBp: parseFloat(formData.HighBp ? '1.0' : '0.0'),
@@ -112,13 +119,13 @@ function PredictionForm() {
             Smoker: parseFloat(formData.Smoker ? '1.0' : '0.0'),
             Stroke: parseFloat(formData.Stroke ? '1.0' : '0.0'),
             HeartDiseaseorAttack: parseFloat(formData.HeartDiseaseorAttack ? '1.0' : '0.0'),
-            BMI: parseFloat(formData.BMI),
+            BMI: parseFloat(calculateBMI(formData.height,formData.weight)),
             PhysActivity: parseFloat(formData.PhysActivity),
             GenHlth: parseFloat(formData.GenHlth),
             MentHlth: parseFloat(formData.MentHlth),
             PhysHlth: parseFloat(formData.PhysHlth),
         };
-    
+
         // Envía los datos formateados a la API
         try {
             const response = await fetch(API_URL + '/predict/register', {
@@ -135,13 +142,13 @@ function PredictionForm() {
                     title: 'Predicción creada correctamente',
                     icon: 'success',
                     confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if(result.isConfirmed) window.location.reload();
-                  })
+                }).then((result) => {
+                    if (result.isConfirmed) window.location.reload();
+                })
             } else {
-                throw new Error("Error");  
+                throw new Error("Error");
             }
-            
+
         } catch (error) {
             // Si hay un error, muestra una alerta de error
             swalAlerts.fire({
@@ -149,7 +156,7 @@ function PredictionForm() {
                 text: 'Error al enviar los datos. Revise los datos ingresados',
                 icon: 'error',
                 confirmButtonText: 'OK'
-              });
+            });
             // Validacaion de los campos con error
             if (!validateFields()) return;
         } finally {
@@ -184,7 +191,7 @@ function PredictionForm() {
                                     <label className="text-sm sm:text-base">
                                         {fieldLabels[field]?.label}
                                     </label>
-                                    {fieldLabels[field]?.comment &&(
+                                    {fieldLabels[field]?.comment && (
                                         <p className="text-gray-500 text-xs sm:text-sm mt-1">
                                             {fieldLabels[field].comment}
                                         </p>
@@ -198,18 +205,40 @@ function PredictionForm() {
                         <label className="block mb-2 font-medium">
                             {fieldLabels['BMI']?.label}
                         </label>
-                        <input
-                            type="number"
-                            name="BMI"
-                            value={formData['BMI']}
-                            onChange={handleChange}
-                            min="12"
-                            className={`w-full p-2 border ${errors.BMI ? 'border-red-500' : 'border-gray-300'} rounded mb-1 focus:outline-none focus:ring focus:ring-blue-300`}
-                            disabled={isSubmitting}
-                        />
-                        {errors.BMI && <p className="text-red-500 text-sm mt-1">{errors.BMI}</p>}
+                        <div className="flex space-x-4">
+                            <div className="flex-1">
+                                <label className="block text-sm font-medium mb-1">Altura (cm)</label>
+                                <input
+                                    type="number"
+                                    name="height"
+                                    value={formData['height']}
+                                    onChange={handleChange}
+                                    min="50"
+                                    max="300"
+                                    className={`w-full p-2 border ${errors.height ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none focus:ring focus:ring-blue-300`}
+                                    disabled={isSubmitting}
+                                />
+                                {errors.height && <p className="text-red-500 text-sm mt-1">{errors.height}</p>}
+                            </div>
+
+                            <div className="flex-1">
+                                <label className="block text-sm font-medium mb-1">Peso (kg)</label>
+                                <input
+                                    type="number"
+                                    name="weight"
+                                    value={formData['weight']}
+                                    onChange={handleChange}
+                                    min="10"
+                                    max="500"
+                                    className={`w-full p-2 border ${errors.weight ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none focus:ring focus:ring-blue-300`}
+                                    disabled={isSubmitting}
+                                />
+                                {errors.weight && <p className="text-red-500 text-sm mt-1">{errors.weight}</p>}
+                            </div>
+                        </div>
                     </div>
-                    
+
+
                     <div className="grid grid-cols-1 gap-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div className="flex flex-col justify-between">
@@ -220,17 +249,17 @@ function PredictionForm() {
                                     <Select
                                         options={optionsMap["PhysActivity"]}
                                         onChange={(selectedOption) =>
-                                        handleSelectChange("PhysActivity", selectedOption)
+                                            handleSelectChange("PhysActivity", selectedOption)
                                         }
                                         placeholder={"Seleccione..."}
                                         isDisabled={isSubmitting}
                                         maxMenuHeight={120}
                                         styles={{
-                                        control: (base) => ({
-                                            ...base,
-                                            minHeight: "42px",
-                                            borderColor: errors["PhysActivity"] ? "red" : base.borderColor,
-                                        }),
+                                            control: (base) => ({
+                                                ...base,
+                                                minHeight: "42px",
+                                                borderColor: errors["PhysActivity"] ? "red" : base.borderColor,
+                                            }),
                                         }}
                                     />
                                     {errors["PhysActivity"] && (
@@ -247,17 +276,17 @@ function PredictionForm() {
                                     <Select
                                         options={optionsMap["GenHlth"]}
                                         onChange={(selectedOption) =>
-                                        handleSelectChange("GenHlth", selectedOption)
+                                            handleSelectChange("GenHlth", selectedOption)
                                         }
                                         placeholder={"Seleccione..."}
                                         isDisabled={isSubmitting}
                                         maxMenuHeight={120}
                                         styles={{
-                                        control: (base) => ({
-                                            ...base,
-                                            minHeight: "42px",
-                                            borderColor: errors["GenHlth"] ? "red" : base.borderColor,
-                                        }),
+                                            control: (base) => ({
+                                                ...base,
+                                                minHeight: "42px",
+                                                borderColor: errors["GenHlth"] ? "red" : base.borderColor,
+                                            }),
                                         }}
                                     />
                                     {errors["GenHlth"] && (
@@ -274,24 +303,24 @@ function PredictionForm() {
                                 </label>
                                 {fieldLabels["MentHlth"]?.comment && (
                                     <p className="comments text-gray-500">
-                                    {fieldLabels["MentHlth"].comment}
+                                        {fieldLabels["MentHlth"].comment}
                                     </p>
                                 )}
                                 <div className="mb-2 min-h-16">
                                     <Select
                                         options={optionsMap["MentHlth"]}
                                         onChange={(selectedOption) =>
-                                        handleSelectChange("MentHlth", selectedOption)
+                                            handleSelectChange("MentHlth", selectedOption)
                                         }
                                         placeholder={"Seleccione..."}
                                         isDisabled={isSubmitting}
                                         maxMenuHeight={120}
                                         styles={{
-                                        control: (base) => ({
-                                            ...base,
-                                            minHeight: "42px",
-                                            borderColor: errors["MentHlth"] ? "red" : base.borderColor,
-                                        }),
+                                            control: (base) => ({
+                                                ...base,
+                                                minHeight: "42px",
+                                                borderColor: errors["MentHlth"] ? "red" : base.borderColor,
+                                            }),
                                         }}
                                     />
                                     {errors["MentHlth"] && (
@@ -306,24 +335,24 @@ function PredictionForm() {
                                 </label>
                                 {fieldLabels["PhysHlth"]?.comment && (
                                     <p className="comments text-gray-500">
-                                    {fieldLabels["PhysHlth"].comment}
+                                        {fieldLabels["PhysHlth"].comment}
                                     </p>
                                 )}
                                 <div className="mb-2 min-h-16">
                                     <Select
                                         options={optionsMap["PhysHlth"]}
                                         onChange={(selectedOption) =>
-                                        handleSelectChange("PhysHlth", selectedOption)
+                                            handleSelectChange("PhysHlth", selectedOption)
                                         }
                                         placeholder={"Seleccione..."}
                                         isDisabled={isSubmitting}
                                         maxMenuHeight={120}
                                         styles={{
-                                        control: (base) => ({
-                                            ...base,
-                                            minHeight: "42px",
-                                            borderColor: errors["PhysHlth"] ? "red" : base.borderColor,
-                                        }),
+                                            control: (base) => ({
+                                                ...base,
+                                                minHeight: "42px",
+                                                borderColor: errors["PhysHlth"] ? "red" : base.borderColor,
+                                            }),
                                         }}
                                     />
                                     {errors["PhysHlth"] && (
@@ -335,11 +364,10 @@ function PredictionForm() {
                     </div>
                 </div>
 
-                <button 
-                    type="submit" 
-                    className={`w-full p-3 mt-6 bg-primary text-white rounded hover:bg-primary_hover transition duration-200 ${
-                        isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                    }`} 
+                <button
+                    type="submit"
+                    className={`w-full p-3 mt-6 bg-primary text-white rounded hover:bg-primary_hover transition duration-200 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                        }`}
                     disabled={isSubmitting}
                 >
                     Enviar

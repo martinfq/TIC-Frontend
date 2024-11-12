@@ -15,7 +15,7 @@ function NavBar() {
         const token = getToken();
         if(token){
 
-            const emailToken = jwtDecode(token).email;
+            const emailToken = jwtDecode(token).name;
             setEmail(emailToken)
         }
         
