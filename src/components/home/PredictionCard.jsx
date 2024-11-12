@@ -7,7 +7,7 @@ function PredictionCard() {
     if(prediction.class == "1" || prediction.class == null){
         return (
             <div
-                className={`p-8 rounded-lg shadow-lg w-full text-center mt-6 transition-all duration-500 hover:scale-105 hover:shadow-blue-600 
+                className={`p-8 rounded-lg shadow-lg w-full text-center mt-6
                     ${prediction.value === null ? 'bg-gray-400' 
                         : prediction.value < 50 ? 'bg-green-500' 
                             : prediction.value < 60 ? 'bg-yellow-500' 
@@ -24,7 +24,7 @@ function PredictionCard() {
     else if(prediction.class == "0"){
         return (
             <div
-                className={`p-8 rounded-lg shadow-lg w-full text-center mt-6 transition-all duration-500 hover:scale-105 hover:shadow-blue-600 bg-green-500`}
+                className={`p-8 rounded-lg shadow-lg w-full text-center mt-6 bg-green-500`}
             >
                 <h2 className="text-2xl font-semibold text-white">Felicidades, se encuentra saludable.</h2>
                 <p className="mt-4 text-4xl text-white">

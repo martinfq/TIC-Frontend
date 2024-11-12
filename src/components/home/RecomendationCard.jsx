@@ -42,7 +42,7 @@ function RecomendationCard() {
                 <h1 className="text-2xl font-bold text-center mb-4">
                     Recomendaciones
                 </h1>
-                <div className="p-8 rounded-lg shadow-lg w-full text-justify bg-white mx-w-md transition-all duration-500 hover:scale-105 hover:shadow-blue-600">
+                <div className="p-8 rounded-lg shadow-lg w-full text-justify bg-white mx-w-md">
                     <ul className="text-xl text-gray-700">
                         {personalizedRecommendations.map((recommendation, index) => (
                             <li key={index} className="flex items-center">

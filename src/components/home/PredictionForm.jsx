@@ -210,103 +210,127 @@ function PredictionForm() {
                         {errors.BMI && <p className="text-red-500 text-sm mt-1">{errors.BMI}</p>}
                     </div>
                     
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div className="flex flex-col" style={{ justifyContent: 'space-between' }}>
-                            <label className="block mb-1 font-medium">
-                                {fieldLabels['PhysActivity']?.label}
-                            </label>
-                            <Select
-                                options={optionsMap['PhysActivity']}
-                                onChange={(selectedOption) => handleSelectChange('PhysActivity', selectedOption)}
-                                placeholder={"Seleccione..."}
-                                isDisabled={isSubmitting}
-                                className="mb-2"
-                                maxMenuHeight={120}
-                                styles={{
-                                    control: (base) => ({
-                                        ...base,
-                                        minHeight: '42px',
-                                        borderColor: errors['PhysActivity'] ? 'red' : base.borderColor
-                                    })
-                                }}
-                            />
-                            {errors['PhysActivity'] && <p className="text-red-500 text-sm mt-1">{errors['PhysActivity']}</p>}
+                    <div className="grid grid-cols-1 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="flex flex-col justify-between">
+                                <label className="block mb-1 font-medium">
+                                    {fieldLabels["PhysActivity"]?.label}
+                                </label>
+                                <div className="mb-2 min-h-16">
+                                    <Select
+                                        options={optionsMap["PhysActivity"]}
+                                        onChange={(selectedOption) =>
+                                        handleSelectChange("PhysActivity", selectedOption)
+                                        }
+                                        placeholder={"Seleccione..."}
+                                        isDisabled={isSubmitting}
+                                        maxMenuHeight={120}
+                                        styles={{
+                                        control: (base) => ({
+                                            ...base,
+                                            minHeight: "42px",
+                                            borderColor: errors["PhysActivity"] ? "red" : base.borderColor,
+                                        }),
+                                        }}
+                                    />
+                                    {errors["PhysActivity"] && (
+                                        <p className="text-red-500 text-sm mt-1">{errors["PhysActivity"]}</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col justify-between">
+                                <label className="block mb-1 font-medium">
+                                    {fieldLabels["GenHlth"]?.label}
+                                </label>
+                                <div className="mb-2 min-h-16">
+                                    <Select
+                                        options={optionsMap["GenHlth"]}
+                                        onChange={(selectedOption) =>
+                                        handleSelectChange("GenHlth", selectedOption)
+                                        }
+                                        placeholder={"Seleccione..."}
+                                        isDisabled={isSubmitting}
+                                        maxMenuHeight={120}
+                                        styles={{
+                                        control: (base) => ({
+                                            ...base,
+                                            minHeight: "42px",
+                                            borderColor: errors["GenHlth"] ? "red" : base.borderColor,
+                                        }),
+                                        }}
+                                    />
+                                    {errors["GenHlth"] && (
+                                        <p className="text-red-500 text-sm mt-1">{errors["GenHlth"]}</p>
+                                    )}
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="flex flex-col">
-                            <label className="block mb-1 font-medium">
-                                {fieldLabels['GenHlth']?.label}
-                            </label>
-                            <Select
-                                options={optionsMap['GenHlth']}
-                                onChange={(selectedOption) => handleSelectChange('GenHlth', selectedOption)}
-                                placeholder={"Seleccione..."}
-                                isDisabled={isSubmitting}
-                                className="mb-2"
-                                maxMenuHeight={120}
-                                styles={{
-                                    control: (base) => ({
-                                        ...base,
-                                        minHeight: '42px',
-                                        borderColor: errors['GenHlth'] ? 'red' : base.borderColor
-                                    })
-                                }}
-                            />
-                            {errors['GenHlth'] && <p className="text-red-500 text-sm mt-1">{errors['GenHlth']}</p>}
-                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="flex flex-col justify-between">
+                                <label className="block mb-1 font-medium">
+                                    {fieldLabels["MentHlth"]?.label}
+                                </label>
+                                {fieldLabels["MentHlth"]?.comment && (
+                                    <p className="comments text-gray-500">
+                                    {fieldLabels["MentHlth"].comment}
+                                    </p>
+                                )}
+                                <div className="mb-2 min-h-16">
+                                    <Select
+                                        options={optionsMap["MentHlth"]}
+                                        onChange={(selectedOption) =>
+                                        handleSelectChange("MentHlth", selectedOption)
+                                        }
+                                        placeholder={"Seleccione..."}
+                                        isDisabled={isSubmitting}
+                                        maxMenuHeight={120}
+                                        styles={{
+                                        control: (base) => ({
+                                            ...base,
+                                            minHeight: "42px",
+                                            borderColor: errors["MentHlth"] ? "red" : base.borderColor,
+                                        }),
+                                        }}
+                                    />
+                                    {errors["MentHlth"] && (
+                                        <p className="text-red-500 text-sm mt-1">{errors["MentHlth"]}</p>
+                                    )}
+                                </div>
+                            </div>
 
-                        <div className="flex flex-col">
-                            <label className="block mb-1 font-medium">
-                                {fieldLabels['MentHlth']?.label}
-                            </label>
-                            {fieldLabels['MentHlth']?.comment && (
-                                <p className="comments text-gray-500">
-                                    {fieldLabels['MentHlth'].comment}
-                                </p>
-                            )}
-                            <Select
-                                options={optionsMap['MentHlth']}
-                                onChange={(selectedOption) => handleSelectChange('MentHlth', selectedOption)}
-                                placeholder={"Seleccione..."}
-                                isDisabled={isSubmitting}
-                                className="mb-2"
-                                maxMenuHeight={120}
-                                styles={{
-                                    control: (base) => ({
-                                        ...base,
-                                        minHeight: '42px',
-                                        borderColor: errors['MentHlth'] ? 'red' : base.borderColor
-                                    })
-                                }}
-                            />
-                            {errors['MentHlth'] && <p className="text-red-500 text-sm mt-1">{errors['MentHlth']}</p>}
-                        </div>
-
-                        <div className="flex flex-col" style={{ justifyContent: 'space-between' }}>
-                            <label className="block mb-1 font-medium">
-                                {fieldLabels['PhysHlth']?.label}
-                            </label>
-                            {fieldLabels['PhysHlth']?.comment && (
-                                <p className="comments text-gray-500">
-                                    {fieldLabels['PhysHlth'].comment}
-                                </p>
-                            )}
-                            <Select
-                                options={optionsMap['PhysHlth']}
-                                onChange={(selectedOption) => handleSelectChange('PhysHlth', selectedOption)}
-                                placeholder={"Seleccione..."}
-                                isDisabled={isSubmitting}
-                                className="mb-2"
-                                maxMenuHeight={120}
-                                styles={{
-                                    control: (base) => ({
-                                        ...base,
-                                        minHeight: '42px',
-                                        borderColor: errors['PhysHlth'] ? 'red' : base.borderColor
-                                    })
-                                }}
-                            />
-                            {errors['PhysHlth'] && <p className="text-red-500 text-sm mt-1">{errors['PhysHlth']}</p>}
+                            <div className="flex flex-col justify-between">
+                                <label className="block mb-1 font-medium">
+                                    {fieldLabels["PhysHlth"]?.label}
+                                </label>
+                                {fieldLabels["PhysHlth"]?.comment && (
+                                    <p className="comments text-gray-500">
+                                    {fieldLabels["PhysHlth"].comment}
+                                    </p>
+                                )}
+                                <div className="mb-2 min-h-16">
+                                    <Select
+                                        options={optionsMap["PhysHlth"]}
+                                        onChange={(selectedOption) =>
+                                        handleSelectChange("PhysHlth", selectedOption)
+                                        }
+                                        placeholder={"Seleccione..."}
+                                        isDisabled={isSubmitting}
+                                        maxMenuHeight={120}
+                                        styles={{
+                                        control: (base) => ({
+                                            ...base,
+                                            minHeight: "42px",
+                                            borderColor: errors["PhysHlth"] ? "red" : base.borderColor,
+                                        }),
+                                        }}
+                                    />
+                                    {errors["PhysHlth"] && (
+                                        <p className="text-red-500 text-sm mt-1">{errors["PhysHlth"]}</p>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
