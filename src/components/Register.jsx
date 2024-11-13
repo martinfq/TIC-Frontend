@@ -66,12 +66,13 @@ const Register = () => {
     }
 
     const today = new Date();
+    const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
     const selected = new Date(selectedDate);
     if (!selectedDate) {
       setDateError('Fecha de nacimiento requerida.');
       isValid = false;
-    } else if (selected > today) {
-      setDateError('La fecha no puede ser posterior a hoy.');
+    } else if (selected > minDate) {
+      setDateError('Debe ser mayor de 18 años para registrarse.');
       isValid = false;
     }
 

@@ -46,7 +46,7 @@ function UserCards() {
                 </div>
                 {/* Tarjeta 1: Gender */}
                 <div className="bg-white p-6 rounded-lg shadow-md w-1/3 text-center">
-                    <h2 className="text-xl font-semibold">Gender</h2>
+                    <h2 className="text-xl font-semibold">Género</h2>
                     <p className="text-gray-700 mt-2">
                         {data?.gender || 'N/A'}
                     </p>
