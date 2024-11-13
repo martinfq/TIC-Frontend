@@ -14,7 +14,7 @@ function PredictionCard() {
                                 : 'bg-red-500'
                     }`}
             >
-                <h2 className="text-2xl font-semibold text-white">Última Predicción</h2>
+                <h2 className="text-2xl font-semibold text-white">Riesgo de diabetes:</h2>
                 <p className="mt-4 text-4xl text-white">
                     {prediction.value !== null ? `${prediction.value}%` : 'No tiene predicciones'}
                 </p>
