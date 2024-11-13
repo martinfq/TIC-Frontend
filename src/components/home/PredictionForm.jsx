@@ -93,7 +93,7 @@ function PredictionForm() {
     };
 
     const calculateBMI = (height, weight) =>{
-        return height / Math.pow((weight/100),2)
+        return  weight/ Math.pow((height/100),2)
     }
 
     // Función que maneja el envío del formulario
