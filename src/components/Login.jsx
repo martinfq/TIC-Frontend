@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 
-const API_URL = 'http://127.0.0.1:5000';
+const API_URL = import.meta.env.VITE_API_URL;
 const COOKIE_EXPIRE = Number(60);
 
 const styles = {

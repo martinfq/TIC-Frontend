@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-const API_URL = 'http://127.0.0.1:5000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -15,19 +15,29 @@ const Register = () => {
   const [emailError, setEmailError] = useState('');
   const [nameError, setNameError] = useState('');
   const [lastNameError, setLastNameError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [passwordErrors, setPasswordErrors] = useState([]);
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [dateError, setDateError] = useState('');
   const [genderError, setGenderError] = useState('');
 
   const navigate = useNavigate();
 
+  const validatePassword = (password) => {
+    const errors = [];
+    if (password.length < 8) errors.push('Debe tener al menos 8 caracteres.');
+    if (!/[A-Z]/.test(password)) errors.push('Debe contar al menos con una mayúscula.');
+    if (!/[a-z]/.test(password)) errors.push('Debe contar al menos con una minúscula.');
+    if (!/[0-9]/.test(password)) errors.push('Debe contar al menos con un dígito.');
+    if (!/[!#@$]/.test(password)) errors.push('Debe contar al menos con uno de los siguientes caracteres especiales: ! # @ $');
+    return errors;
+  };
+
   const validateFields = () => {
     let isValid = true;
     setEmailError('');
     setNameError('');
     setLastNameError('');
-    setPasswordError('');
+    setPasswordErrors([]);
     setConfirmPasswordError('');
     setDateError('');
     setGenderError('');
@@ -55,8 +65,9 @@ const Register = () => {
       isValid = false;
     }
 
-    if (password.trim() === '') {
-      setPasswordError('Contraseña requerida.');
+    const passwordValidationErrors = validatePassword(password);
+    if (passwordValidationErrors.length > 0) {
+      setPasswordErrors(passwordValidationErrors);
       isValid = false;
     }
 
@@ -89,7 +100,7 @@ const Register = () => {
     setError('');
 
     if (!validateFields()) {
-      return; 
+      return;
     }
     fetchData();
   };
@@ -107,7 +118,7 @@ const Register = () => {
           name: name,
           last_name: last_name,
           birthday: selectedDate,
-          genero: gender, 
+          genero: gender,
         }),
       });
 
@@ -133,6 +144,7 @@ const Register = () => {
     errorText: 'text-red-500 mb-4',
     input: 'w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300',
     inputError: 'text-red-500 text-sm mt-1 mb-4',
+    passwordErrors: 'text-red-500 text-sm mt-1',
     button: 'w-full p-2 bg-primary text-white rounded hover:bg-primary_hover transition duration-200 mt-4',
     dateContainer: 'mb-4',
     dateLabel: 'block mb-2',
@@ -209,11 +221,23 @@ const Register = () => {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                setPasswordError('');
+                setPasswordErrors(validatePassword(e.target.value));
+                if (e.target.value.trim() !== "" && confirmPassword !== e.target.value.trim()) {
+                  setConfirmPasswordError('Las contraseñas no coinciden.');
+                } else {
+                  setConfirmPasswordError('');
+                }
               }}
-              className={`${styles.input} ${passwordError ? '' : 'mb-4'}`} 
+              className={`${styles.input} ${'mb-4'}`}
             />
-            {passwordError && <p className={styles.inputError}>{passwordError}</p>}
+            {passwordErrors.length > 0 && (
+              <div className="mb-4">
+                <strong><p className={`${styles.passwordErrors} -mt-4`}>Contraseña Incorrecta:</p></strong>
+                {passwordErrors.map((err, index) => (
+                  <p key={index} className={styles.passwordErrors}>{err}</p>
+                ))}
+              </div>
+            )}
           </label>
           <label>
             Confirmar Contraseña
@@ -222,8 +246,14 @@ const Register = () => {
               placeholder="Confirmar Contraseña"
               value={confirmPassword}
               onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                setConfirmPasswordError('');
+                const value = e.target.value;
+                setConfirmPassword(value);
+
+                if (password.trim() !== "" && value !== "" && value !== password) {
+                  setConfirmPasswordError('Las contraseñas no coinciden.');
+                } else {
+                  setConfirmPasswordError('');
+                }
               }}
               className={`${styles.input} ${confirmPasswordError ? '' : 'mb-4'}`} 
             />

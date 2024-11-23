@@ -22,7 +22,7 @@ function PredictionForm() {
 
     // Opciones para los ComboBox
     const optionsMap = {
-        PhysActivity: [{ value: 0, label: 'No' }, { value: 1, label: 'Si' }],
+        PhysActivity: [{ value: 1, label: 'Si' }, { value: 0, label: 'No' }],
         GenHlth: [{ value: 1, label: 'Excelente' }, { value: 2, label: 'Buena' }, { value: 3, label: 'Regular' }, { value: 4, label: 'Mala' }, { value: 5, label: 'Muy Mala' }],
         MentHlth: Array.from({ length: 31 }, (_, i) => ({ value: i, label: i.toString() })),
         PhysHlth: Array.from({ length: 31 }, (_, i) => ({ value: i, label: i.toString() })),
@@ -84,8 +84,8 @@ function PredictionForm() {
         const newErrors = {};
         if (!formData.height) newErrors.height = 'El campo de altura es obligatorio';
         if (!formData.weight) newErrors.weight = 'El campo de peso es obligatorio';
-        if (formData.PhysActivity === '') newErrors.PhysActivity = 'Seleccione una opción para Actividad Física';
-        if (formData.GenHlth === '') newErrors.GenHlth = 'Seleccione una opción para Salud General';
+        if (formData.PhysActivity === '') newErrors.PhysActivity = 'Seleccione una opción para actividad física';
+        if (formData.GenHlth === '') newErrors.GenHlth = 'Seleccione una opción para salud general';
         if (formData.MentHlth === '') newErrors.MentHlth = 'Seleccione una opción para Salud Mental';
         if (formData.PhysHlth === '') newErrors.PhysHlth = 'Seleccione una opción para Salud Física';
         setErrors(newErrors);

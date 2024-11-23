@@ -1,13 +1,13 @@
 {
-  "HighBp":{"label": "Presion arterial alta", "comment": ""},
+  "HighBp":{"label": "Presión arterial alta", "comment": ""},
   "HighChol":{"label": "Colesterol alto", "comment": ""},
   "Smoker":{"label": "Fumador habitual", "comment": ""},
   "Stroke":{"label": "Historial de derrame cerebral", "comment": ""},
   "HeartDiseaseorAttack":{"label": "Enfermedad o ataque cardiaco", "comment": ""},
   "BMI":{"label": "Índice de Masa Corporal (IMC)", "comment": ""},
-  "PhysActivity":{"label": "¿Ha realizado Actividad Física en el último mes?"},
-  "GenHlth":{"label": "¿Cómo evaluaría su estado de Salud General?"},
-  "MentHlth":{"label": "En el último mes, ¿Cuantos días ha tenido problemas con su Salud Mental?", "comment": "Estrés, ansiedad, problemas de insomnio, trastornos alimenticios."},
-  "PhysHlth":{"label": "En el último mes, ¿Cuantos días ha tenido problemas con su Salud Física?", "comment": "Agotamiento, falta de aire, dolor muscular, dolor en el pecho."}
+  "PhysActivity":{"label": "¿Ha realizado actividad física en el último mes?"},
+  "GenHlth":{"label": "¿Cómo evaluaría su estado de salud general?"},
+  "MentHlth":{"label": "En el último mes, ¿Cuantos días ha tenido problemas con su salud mental?", "comment": "Estrés, ansiedad, problemas de insomnio, trastornos alimenticios."},
+  "PhysHlth":{"label": "En el último mes, ¿Cuantos días ha tenido problemas con su salud física?", "comment": "Agotamiento, falta de aire, dolor muscular, dolor en el pecho."}
 }
   
