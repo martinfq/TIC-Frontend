@@ -1,0 +1,38 @@
+# Etapa de construcción
+FROM node:18-alpine AS build
+
+# Establecer el directorio de trabajo
+WORKDIR /app
+
+# Copiar package.json y package-lock.json
+COPY package.json package-lock.json ./
+
+# Instalar dependencias
+RUN npm install
+
+# Copiar el resto del código de la aplicación
+COPY . .
+
+ARG VITE_API_URL
+ARG VITE_OTHER_KEY
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_OTHER_KEY=$VITE_OTHER_KEY
+
+
+# Construir la aplicación de Vite
+RUN npm run build
+
+# Etapa de producción con Nginx
+FROM nginx:alpine
+
+# Copiar los archivos construidos al directorio de Nginx
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Copiar la configuración personalizada de Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Exponer el puerto 5000 dentro del contenedor
+EXPOSE 8080
+
+# Comando para ejecutar Nginx
+CMD ["nginx", "-g", "daemon off;"]

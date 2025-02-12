@@ -54,13 +54,14 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch(API_URL + '/login', {
+      const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email: email, password: password }),
       });
+      console.log(response)
       if (response.ok) {
         const data = await response.json();
         Cookies.set('auth', data.access_token, { expires: 60 / 1440 });

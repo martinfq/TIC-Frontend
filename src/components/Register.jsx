@@ -118,7 +118,7 @@ const Register = () => {
           name: name,
           last_name: last_name,
           birthday: selectedDate,
-          genero: gender,
+          gender: gender,
         }),
       });
 
